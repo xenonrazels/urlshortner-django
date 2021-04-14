@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>urlshortner</title>
+    <link rel = "stylesheet" href="{% static 'css/base.css' %}" >
+</head>
+<body>
+<main id="main"><div class="heading">
+    <h1>URl shortner</h1>
+</div>
+<div class="content">
+    <form id="post-form">
+        {% csrf_token %}
+    <label for="site-search">Search the site:</label>
+    <input type="text" id="link" name="link" placeholder="Enter a url here."
+           aria-label="Search through site content">
+    
+    <button type="submit" id ="shorten">shorten</button>
+</form>
+</div>
+</div>
+<section id="section"><h2></h2></section>
+
+</main>
+<script type="text/javascript">
+    $(document).on('submit','#post-form',function(e){
+        e.preventDefault();
+        $.ajax({
+            type:'POST',
+            url:'/create',
+            data:{
+                link:$('#link').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function(data){
+                $('h2').html("localhost:8000/"+data)
+            }
+        });
+    });
+</script>
+</body>
+</html>
